@@ -29,7 +29,7 @@ client = genai.Client(api_key=api_key)
 
 # Load catalog
 try:
-    catalog_df = pd.read_csv("frames_catalog.csv")
+    catalog_df = pd.read_csv("frames_catalog.xlsx")
 except Exception:
     catalog_df = pd.DataFrame()
 
