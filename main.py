@@ -3,9 +3,10 @@ import pandas as pd
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from dotenv import load_dotenv #1. import load_dotenv
+from dotenv import load_dotenv; load_dotenv() #1. import load_dotenv
 from openai import OpenAI  # You can keep using the openai package library!
 from google import genai
+#from pathlib import Path
 
 # 2. Load environment
 load_dotenv() # Load environment 
@@ -23,13 +24,17 @@ app.add_middleware(
 api_key = os.environ.get("GEMINI_API_KEY")
 if not api_key:
     raise ValueError("GEMINI_API_KEY not found in environment variables.")
+#print("API Key loaded:", bool(os.getenv("GEMINI_API_KEY")))
 
 # Initialize Google GenAI client (picks up GEMINI_API_KEY from environment variables)
 client = genai.Client(api_key=api_key)
 
 # Load catalog
+#BASE_DIR = Path(__file__).resolve().parent
+#csv_path = BASE_DIR / "frames_catalog.csv"
+
 try:
-    catalog_df = pd.read_csv("frames_catalog.xlsx")
+    catalog_df = pd.read_csv("frames_catalog.csv")
 except Exception:
     catalog_df = pd.DataFrame()
 
@@ -47,8 +52,12 @@ def search_catalog(query: str) -> str:
     return matched_rows.to_string(index=False)
 
 @app.post("/chat")
-def chat_endpoint(request: ChatRequest):
+async def chat_endpoint(request: ChatRequest):
+    
     try:
+        # 1. PRint
+        print(f"Received message to process: {request.message}")
+
         product_context = search_catalog(request.message)
 
         system_prompt = f"""
@@ -57,8 +66,9 @@ def chat_endpoint(request: ChatRequest):
         {product_context}
 
         RULES:
+
         - Use ONLY the product details provided above to answer questions about stock, pricing, and sizes.
-        - If a customer asks for something not in the inventory, politely offer the closest alternative.
+        - If a customer asks for something not in the inventory, politely offer the closest alternative from the list.
         - Keep answers concise and helpful.
         """
 
@@ -66,13 +76,16 @@ def chat_endpoint(request: ChatRequest):
         full_prompt = f"{system_prompt}\n\nCustomer Message: {request.message}"
 
         response = client.models.generate_content(
-            model='gemini-2.5-flash', # Fast, high-performing, and free-tier friendly
+            model='gemini-3.5-flash', # Fast, high-performing, and free-tier friendly
             contents=full_prompt,
         )
 
         return {"reply": response.text}
+#        return {"test": "Test backend."}
 
     except Exception as e:
+        print("---Crash Detected---")
+#        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
 
