@@ -1,4 +1,5 @@
 .env
-_pycache_/
+__pycache__/
 venv/
 test_recovered.html
+*.py[cod]
