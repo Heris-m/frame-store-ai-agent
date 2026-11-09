@@ -70,6 +70,14 @@ async def chat_endpoint(request: ChatRequest):
         - Use ONLY the product details provided above to answer questions about stock, pricing, and sizes.
         - If a customer asks for something not in the inventory, politely offer the closest alternative from the list.
         - Keep answers concise and helpful.
+        
+        OUTPUT FORMATTING RULES:
+
+        - Use actual line breaks between sections.
+        - Never display escaped newline characters such as \n.
+        - Use simple plain text formatting.
+        - Keep headings and paragraphs clearly separated.
+        - Use bullet points for key findings.
         """
 
         # Combine system prompt and user message for Gemini
