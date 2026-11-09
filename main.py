@@ -5,7 +5,6 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv; load_dotenv() #1. import load_dotenv
-from openai import OpenAI  # You can keep using the openai package library!
 from google import genai
 import uvicorn
 #from pathlib import Path
