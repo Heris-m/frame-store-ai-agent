@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from dotenv import load_dotenv; load_dotenv() #1. import load_dotenv
 from openai import OpenAI  # You can keep using the openai package library!
 from google import genai
+import uvicorn
 #from pathlib import Path
 
 # 2. Load environment
@@ -28,6 +29,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
+
 # 3. Access the key using os.environ.get("GEMINI")
 api_key = os.environ.get("GEMINI_API_KEY")
 if not api_key:
