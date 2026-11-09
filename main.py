@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import traceback
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -13,9 +14,16 @@ load_dotenv() # Load environment
 
 app = FastAPI()
 
+# Configure allowed origins
+origins = [
+    "https://virtue.co-id.id/info",  # Replace with you actual URL
+    "http://localhost:8000",         # Useful if you test your frontend locally
+    "http://127.0.0.1:8000"
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -93,7 +101,7 @@ async def chat_endpoint(request: ChatRequest):
 
     except Exception as e:
         print("---Crash Detected---")
-#        traceback.print_exc()
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
 
