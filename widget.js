@@ -56,7 +56,7 @@ async function sendMessage() {
 
     try {
         // Send request to your local FastAPI backend
-        const res = await fetch('http://127.0.0.1:8000/chat', {
+        const res = await fetch('https://frame-store-ai-agent-production.up.railway.app/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: text })
