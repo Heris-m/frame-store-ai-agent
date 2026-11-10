@@ -7,11 +7,18 @@ from dotenv import load_dotenv; load_dotenv() #1. import load_dotenv
 from google import genai
 import uvicorn
 #from pathlib import Path
+from fastapi.responses import FileResponse
 
 # 2. Load environment
 load_dotenv() # Load environment 
 
 app = FastAPI()
+
+WIDGET_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "widget.js")
+
+@app.get("/widget.js")
+async def widget_js():
+    return FileResponse(WIDGET_PATH, media_type="application/javascript")
 
 # Configure allowed origins
 origins = [
