@@ -21,10 +21,10 @@ async def widget_js():
     return FileResponse(WIDGET_PATH, media_type="application/javascript")
 
 # Configure allowed origins
-origins = [
+allow_origins = [
     "https://virtue.co-id.id/info",  # Replace with you actual URL
-    "http://localhost:8000",         # Useful if you test your frontend locally
-    "http://127.0.0.1:8000"
+    "https://www.virtue.co-id.id/info",         # Useful if you test your frontend locally
+    "http://localtest:8000"          # Keeps local testing working tool
 ]
 
 app.add_middleware(
