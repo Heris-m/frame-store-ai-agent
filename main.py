@@ -23,8 +23,8 @@ async def widget_js():
 
 # Configure allowed origins
 allow_origins = [
-    "https://virtue.co-id.id/info",  # Replace with you actual URL
-    "https://www.virtue.co-id.id/info",         # Useful if you test your frontend locally
+    "https://tokozoomzoom.shop",  # Replace with you actual URL
+    "https://www.tokozoomzoom.shop",         # Useful if you test your frontend locally
     "http://localtest:8000"          # Keeps local testing working tool
 ]
 
@@ -97,6 +97,7 @@ async def chat_endpoint(request: ChatRequest):
         - Use simple plain text formatting.
         - Keep headings and paragraphs clearly separated.
         - Use bullet points for key findings.
+        - Change new line if '*' character is encountered or ':' character is found.
         """
 
         # Combine system prompt and user message for Gemini
