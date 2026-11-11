@@ -8,6 +8,7 @@ from google import genai
 import uvicorn
 #from pathlib import Path
 from fastapi.responses import FileResponse
+import traceback
 
 # 2. Load environment
 load_dotenv() # Load environment 
@@ -111,7 +112,7 @@ async def chat_endpoint(request: ChatRequest):
 
     except Exception as e:
         print("---Crash Detected---")
-#        traceback.print_exc()
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
 
